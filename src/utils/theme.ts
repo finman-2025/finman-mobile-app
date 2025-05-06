@@ -19,6 +19,7 @@ declare module "@rneui/themed" {
       | "grey3"
       | "grey4"
       | "grey5"
+      | "grey6"
       | "greyOutline"
       | "searchBg"
       | "success"
@@ -39,7 +40,7 @@ const primary = "#33aaff";
 export const THEME = createTheme({
   lightColors: {
     primary,
-    secondary: "#2288cc",
+    secondary: "#ddd",
     backgroundPrimary: "#e6f4ff",
     black: "#222",
     white: "#fff",
@@ -50,9 +51,10 @@ export const THEME = createTheme({
     grey3: "#888",
     grey4: "#aaa",
     grey5: "#ccc",
+    grey6: "#ddd",
     greyOutline: "#bbb",
     searchBg: "#303337",
-    success: "#41c431",
+    success: "#53d155",
     error: "#ff5555",
     warning: "#ffaa33",
     disabled: "#eee",

@@ -14,6 +14,7 @@ import { CategoryCard } from "@/components/screens/category";
 import { HintCard } from "@/components/screens/hint";
 
 import { TEXT } from "@/utils/text";
+import { RefreshableScrollView } from "@/components/common";
 
 export default function HomeScreen() {
   const {
@@ -21,12 +22,9 @@ export default function HomeScreen() {
   } = useTheme();
 
   return (
-    <ScrollView
-      style={{ backgroundColor: colors.background }}
-      contentContainerStyle={{ paddingBottom: 100 }}
+    <RefreshableScrollView
+      contentContainerStyle={{ paddingHorizontal: 0, paddingTop: 0 }}
     >
-      <StatusBar backgroundColor="#000" barStyle="light-content" />
-
       <Header />
 
       <BalanceCard />
@@ -64,7 +62,7 @@ export default function HomeScreen() {
           content="Lorem, ipsum dolor sit amet consec tetur adipi sicing elit."
         />
       </View>
-    </ScrollView>
+    </RefreshableScrollView>
   );
 }
 

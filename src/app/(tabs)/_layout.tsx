@@ -1,6 +1,6 @@
 import { router, Tabs } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@rneui/themed";
 import { Feather, FontAwesome6, Fontisto } from "@expo/vector-icons";
 
@@ -37,6 +37,8 @@ export default function TabLayout() {
           {
             backgroundColor: colors.backgroundPrimary,
             boxShadow: `0 0 10 ${colors.disabled}`,
+            height: Platform.OS === "ios" ? 100 : 80,
+            paddingTop: Platform.OS === "ios" ? 14 : 0,
           },
         ],
         tabBarItemStyle: styles.item,
@@ -101,7 +103,6 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 80,
     borderTopWidth: 0,
     paddingHorizontal: 20,
     borderTopLeftRadius: 50,

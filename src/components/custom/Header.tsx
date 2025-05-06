@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { router } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { Button, useTheme } from "@rneui/themed";
 import { FontAwesome6 } from "@expo/vector-icons";
 
@@ -12,29 +12,39 @@ type IProps = {
   right?: (props?: any) => ReactNode;
 };
 
-export default function Header({ title, backBtn, right }: IProps) {
+export default function Header(props: IProps) {
+  const { title, backBtn, right } = props;
+
   const {
     theme: { colors },
   } = useTheme();
 
   return (
-    <View style={[styles.header, { backgroundColor: colors.background }]}>
-      <View style={styles.left}>
-        {backBtn && (
-          <Button
-            buttonStyle={styles.backBtn}
-            icon={
-              <FontAwesome6 name="arrow-left" size={22} color={colors.white} />
-            }
-            onPress={router.back}
-          />
-        )}
-        <CustomText type="h4" style={styles.title}>
-          {title}
-        </CustomText>
+    <Fragment>
+      <StatusBar barStyle="dark-content" />
+
+      <View style={[styles.header, { backgroundColor: colors.background }]}>
+        <View style={styles.left}>
+          {backBtn && (
+            <Button
+              buttonStyle={styles.backBtn}
+              icon={
+                <FontAwesome6
+                  name="arrow-left"
+                  size={22}
+                  color={colors.white}
+                />
+              }
+              onPress={router.back}
+            />
+          )}
+          <CustomText type="h4" style={styles.title}>
+            {title}
+          </CustomText>
+        </View>
+        {right && right()}
       </View>
-      {right && right()}
-    </View>
+    </Fragment>
   );
 }
 
@@ -45,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    paddingTop: 24,
+    paddingTop: 28,
   },
   left: {
     paddingVertical: 12,

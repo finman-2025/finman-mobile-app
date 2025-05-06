@@ -4,5 +4,6 @@ export type ResponseDto<T> = {
 };
 
 export type ExceptionDto = {
+  status: number;
   message: string;
 };

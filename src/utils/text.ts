@@ -2,11 +2,17 @@ export const TEXT = {
   appName: "Finman",
   login: "Đăng nhập",
   register: "Đăng ký",
+  createAccount: "Tạo tài khoản",
+  logout: "Đăng xuất",
+  username: "Tên đăng nhập",
+  password: "Mật khẩu",
+  forgotPassword: "Quên mật khẩu",
   home: "Trang chủ",
   analytics: "Phân tích",
   categories: "Phân loại",
   chatbot: "Tư vấn tài chính",
   profile: "Hồ sơ",
+  name: "Tên",
   transactionHistory: "Lịch sử giao dịch",
   financeTips: "Mẹo quản lý tài chính",
   hello: "Xin chào",
@@ -20,4 +26,15 @@ export const TEXT = {
   detail: "Chi tiết",
   showMore: "Xem thêm",
   showLess: "Thu gọn",
+  yes: "Có",
+  no: "Không",
+  ok: "OK",
+  cancel: "Hủy",
+  close: "Đóng",
+  sessionExpired: "Phiên đăng nhập hết hạn, hãy đăng nhập lại",
+};
+
+export const SUMMARY = {
+  pleaseEnter: (field: string) => `Hãy nhập ${field.toLocaleLowerCase()}`,
+  successfully: (field: string) => `${field} thành công`,
 };

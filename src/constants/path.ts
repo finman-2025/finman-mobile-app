@@ -4,6 +4,11 @@ const PATH = {
   HOME: "/",
   ONBOARDING: "/onboarding",
   HISTORY: "/history",
+  CATEGORIES: "/categories",
+  CATEGORY: (categoryId: number | string) => ({
+    pathname: "/categories",
+    params: { categoryId },
+  }),
   ANALYTICS: "/analytics",
 };
 

@@ -1,9 +1,13 @@
 import type { ButtonProps } from "@rneui/themed";
-import { Button } from "@rneui/themed";
+import { Button, useTheme } from "@rneui/themed";
 import { useMemo } from "react";
 
 export default function CustomButton(props: ButtonProps) {
   const { size = "md", buttonStyle, titleStyle, ...rest } = props;
+
+  const {
+    theme: { colors },
+  } = useTheme();
 
   const sizeStyle = useMemo(
     () => ({
@@ -20,7 +24,12 @@ export default function CustomButton(props: ButtonProps) {
     <Button
       {...rest}
       buttonStyle={[buttonStyle, { ...sizeStyle[size] }]}
-      titleStyle={[titleStyle, { fontSize: fontSize[size] }]}
+      loadingProps={{ size: size === "md" ? 21 : 22 }}
+      titleStyle={[
+        titleStyle,
+        { fontSize: fontSize[size] },
+        rest.color === "secondary" ? { color: colors.grey0 } : {},
+      ]}
     >
       {props.children}
     </Button>

@@ -1,9 +1,29 @@
-import type { CategoryDto } from "@/types/dto";
-import API from "./base";
+import type { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { router } from "expo-router";
 
-import { QUERY_TAG } from "@/constants";
+import { CONFIG } from "@/config";
+import { HTTP_STATUS, PATH, QUERY_TAG } from "@/constants";
+import { CategoryDto } from "@/types/dto";
 
-const categoryApi = API.injectEndpoints({
+const baseQuery = fetchBaseQuery({ baseUrl: CONFIG.API_URL });
+
+const baseQueryWithInterceptor = async (
+  args: string | FetchArgs,
+  api: BaseQueryApi,
+  extraOptions: {}
+) => {
+  const result = await baseQuery(args, api, extraOptions);
+  if (result.error && result.error.status === HTTP_STATUS.UNAUTHORIZED) {
+    router.replace(PATH.LOGIN);
+  }
+  return result;
+};
+
+const categoryApi = createApi({
+  reducerPath: "categoryApi",
+  tagTypes: [QUERY_TAG.CATEGORIES],
+  baseQuery: baseQueryWithInterceptor,
   endpoints: (build) => ({
     getCategories: build.query<CategoryDto[], void>({
       query: () => "/categories",
@@ -55,7 +75,6 @@ const categoryApi = API.injectEndpoints({
       ],
     }),
   }),
-  overrideExisting: true,
 });
 
 export const {

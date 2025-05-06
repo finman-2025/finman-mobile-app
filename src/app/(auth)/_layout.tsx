@@ -1,5 +1,6 @@
 import { router, Stack } from "expo-router";
 import { useEffect } from "react";
+import { StatusBar } from "react-native";
 import { useTheme } from "@rneui/themed";
 
 import { PATH, TOKEN_NAME } from "@/constants";
@@ -21,8 +22,8 @@ export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
         contentStyle: { backgroundColor: colors.background },
+        header: () => <StatusBar barStyle="dark-content" />,
       }}
       initialRouteName="login"
     >

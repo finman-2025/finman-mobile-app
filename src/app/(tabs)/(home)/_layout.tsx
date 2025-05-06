@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 import { useTheme } from "@rneui/themed";
 
 import { Header } from "@/components/custom";
@@ -21,10 +22,7 @@ export default function HomeLayout() {
       }}
       initialRouteName="index"
     >
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false, statusBarStyle: "light" }}
-      />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
         name="history"
         options={{ headerTitle: TEXT.transactionHistory }}

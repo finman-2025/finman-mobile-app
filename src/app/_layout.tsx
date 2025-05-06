@@ -4,12 +4,12 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 
 import { useEffect } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import "react-native-reanimated";
 
 import {
   ReduxToolkitProvider,
   RNElementsThemeProvider,
+  AlertProvider,
 } from "@/components/providers";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -31,18 +31,18 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <ReduxToolkitProvider>
-        <RNElementsThemeProvider>
-          <Stack screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
+    <ReduxToolkitProvider>
+      <RNElementsThemeProvider>
+        <AlertProvider>
+          <StatusBar style="auto" />
+          <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="+not-found" />
           </Stack>
-          <StatusBar style="auto" />
-        </RNElementsThemeProvider>
-      </ReduxToolkitProvider>
-    </SafeAreaProvider>
+        </AlertProvider>
+      </RNElementsThemeProvider>
+    </ReduxToolkitProvider>
   );
 }
