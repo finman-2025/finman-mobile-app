@@ -1,7 +1,20 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
+
+import { RefreshableScrollView } from "@/components/common";
+import { ExpensesList } from "@/components/screens/expense";
+import { useGetExpensesQuery } from "@/api/expenses";
 
 export default function HistoryScreen() {
-  return <ScrollView></ScrollView>;
+  const { data, isFetching, isError, refetch } = useGetExpensesQuery();
+
+  return (
+    <RefreshableScrollView
+      contentContainerStyle={{ gap: 24 }}
+      onRefresh={refetch}
+    >
+      <ExpensesList data={data} loading={isFetching} error={isError} />
+    </RefreshableScrollView>
+  );
 }
 
 const styles = StyleSheet.create({});

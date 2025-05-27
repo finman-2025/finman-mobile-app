@@ -1,8 +1,7 @@
 import { Stack } from "expo-router";
-import { Platform } from "react-native";
 import { useTheme } from "@rneui/themed";
 
-import { Header } from "@/components/custom";
+import { Header } from "@/components/common";
 
 import { TEXT } from "@/utils/text";
 
@@ -28,12 +27,8 @@ export default function HomeLayout() {
         options={{ headerTitle: TEXT.transactionHistory }}
       />
       <Stack.Screen
-        name="tips/index"
-        options={{ headerTitle: TEXT.financeTips }}
-      />
-      <Stack.Screen
-        name="tips/[tipId]"
-        options={{ headerTitle: TEXT.financeTips }}
+        name="financial-tips"
+        options={{ headerTitle: TEXT.financialTips }}
       />
     </Stack>
   );

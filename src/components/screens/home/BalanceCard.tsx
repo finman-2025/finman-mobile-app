@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { router } from "expo-router";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTheme } from "@rneui/themed";
 import { Feather, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
@@ -8,9 +8,17 @@ import { Feather, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { CustomText } from "@/components/custom";
 
 import { PATH } from "@/constants";
-import { TEXT } from "@/utils/text";
+import { SUMMARY, TEXT } from "@/utils/text";
+import { toNumberString } from "@/utils/common";
 
-export default function BalanceCard() {
+type IProps = {
+  balance: number;
+  loading?: boolean;
+  error?: boolean;
+};
+
+export default memo(function BalanceCard(props: IProps) {
+  const { balance, loading, error } = props;
   const {
     theme: { colors },
   } = useTheme();
@@ -31,7 +39,9 @@ export default function BalanceCard() {
         <View>
           <CustomText status="label">{TEXT.balance}</CustomText>
           <CustomText type="h2" style={{ marginVertical: 6 }}>
-            {showBalance ? "8.000.500" : "*********"} đ
+            {error || loading
+              ? ""
+              : `${showBalance ? toNumberString(balance) : "*********"} đ`}
           </CustomText>
         </View>
         <TouchableOpacity
@@ -49,13 +59,13 @@ export default function BalanceCard() {
       <View style={styles.actions}>
         <ActionButton
           icon={<MaterialCommunityIcons name="line-scan" size={24} />}
-          label={TEXT.scanBill}
-          onPress={() => {}}
+          label={TEXT.scanReceipt}
+          onPress={() => router.push(PATH.SCAN_RECEIPT)}
         />
         <ActionButton
           icon={<Feather name="plus" size={24} />}
-          label={TEXT.addExpense}
-          onPress={() => {}}
+          label={SUMMARY.add(TEXT.expense)}
+          onPress={() => router.push(PATH.ADD_EXPENSE())}
         />
         <ActionButton
           icon={<Octicons name="arrow-switch" size={22} />}
@@ -70,7 +80,7 @@ export default function BalanceCard() {
       </View>
     </View>
   );
-}
+});
 
 type ActionButtonProps = {
   icon: ReactNode;

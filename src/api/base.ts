@@ -17,12 +17,7 @@ const baseQuery = fetchBaseQuery({
     const url: string = typeof arg === "string" ? arg : arg.url;
 
     if (url !== "/auth/login" && url !== "/auth/register") {
-      const tokenName =
-        url === "/auth/refresh"
-          ? TOKEN_NAME.REFRESH_TOKEN
-          : TOKEN_NAME.ACCESS_TOKEN;
-
-      const token = await getItem(tokenName);
+      const token = await getItem(TOKEN_NAME.ACCESS_TOKEN);
       if (token) headers.set("authorization", `Bearer ${token}`);
     }
     return headers;
@@ -48,18 +43,11 @@ const baseQueryWithInterceptor = async (
           const release = await mutex.acquire();
           try {
             const refreshResult = await baseQuery(
-              { url: "/auth/refresh", method: "POST" },
+              { url: "/auth/refresh", method: "POST", body: { refreshToken } },
               api,
               extraOptions
             );
-            if (refreshResult.data) {
-              const tokens = refreshResult.data as LoginResDto;
-              await Promise.all([
-                setItem(TOKEN_NAME.ACCESS_TOKEN, tokens.accessToken),
-                setItem(TOKEN_NAME.REFRESH_TOKEN, tokens.refreshToken),
-              ]);
-              result = await baseQuery(args, api, extraOptions);
-            } else
+            if (refreshResult.error) {
               api.dispatch(
                 error({
                   message: TEXT.sessionExpired,
@@ -68,10 +56,19 @@ const baseQueryWithInterceptor = async (
                       removeItem(TOKEN_NAME.ACCESS_TOKEN),
                       removeItem(TOKEN_NAME.REFRESH_TOKEN),
                     ]);
+                    api.dispatch({ type: "RESET_STATES" });
                     router.replace(PATH.LOGIN);
                   },
                 })
               );
+            } else if (refreshResult.data) {
+              const tokens = refreshResult.data as LoginResDto;
+              await Promise.all([
+                setItem(TOKEN_NAME.ACCESS_TOKEN, tokens.accessToken),
+                setItem(TOKEN_NAME.REFRESH_TOKEN, tokens.refreshToken),
+              ]);
+              result = await baseQuery(args, api, extraOptions);
+            }
           } finally {
             release();
           }
@@ -82,14 +79,21 @@ const baseQueryWithInterceptor = async (
       } else router.replace(PATH.LOGIN);
     } else {
       const errorData = result.error.data as ExceptionDto;
-      api.dispatch(error({ message: errorData?.message }));
+      api.dispatch(error({ message: errorData?.message ?? TEXT.networkError }));
     }
   }
   return result;
 };
 
 const API = createApi({
-  tagTypes: [QUERY_TAG.USERS, QUERY_TAG.CATEGORIES],
+  tagTypes: [
+    QUERY_TAG.PROFILE,
+    QUERY_TAG.CATEGORIES,
+    QUERY_TAG.ANALYTICS,
+    QUERY_TAG.EXPENSES,
+    QUERY_TAG.TOTAL_EXPENSE,
+    QUERY_TAG.FINANCIAL_TIPS,
+  ],
   baseQuery: baseQueryWithInterceptor,
   endpoints: () => ({}),
 });

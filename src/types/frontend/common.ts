@@ -3,3 +3,10 @@ export type IMutateFunction<T> = (
   onSuccess?: () => void,
   onError?: () => void
 ) => Promise<any>;
+
+export type IOption = {
+  value: number | string;
+  label?: string;
+};
+
+export type IImageFile = { uri?: string; name?: string; type?: string };

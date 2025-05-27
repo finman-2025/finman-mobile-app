@@ -4,10 +4,10 @@ export type UserDto = {
   id: number;
   username: string;
   email: string;
-  name?: string;
+  name: string;
   avatar?: string;
-  gender?: Gender;
-  birthday?: string;
-  phone?: string;
+  sex?: Gender;
+  dateOfBirth?: string;
+  phoneNumber?: string;
   address?: string;
 };

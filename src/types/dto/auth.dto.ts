@@ -1,3 +1,11 @@
+export type RegisterDto = {
+  username: string;
+  password: string;
+  confirmPassword?: string;
+  email: string;
+  name: string;
+};
+
 export type LoginReqDto = {
   username: string;
   password: string;

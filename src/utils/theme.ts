@@ -26,7 +26,8 @@ declare module "@rneui/themed" {
       | "warning"
       | "error"
       | "disabled"
-      | "shadow",
+      | "shadow"
+      | "backdrop",
       string
     > {}
 
@@ -35,29 +36,30 @@ declare module "@rneui/themed" {
   }
 }
 
-const primary = "#33aaff";
-
 export const THEME = createTheme({
   lightColors: {
-    primary,
-    secondary: "#ddd",
+    primary: "#33aaff",
+    secondary: "#666666",
     backgroundPrimary: "#e6f4ff",
-    black: "#222",
-    white: "#fff",
+    black: "#222222",
+    white: "#ffffff",
     background: "#f7fafe",
-    grey0: "#444",
-    grey1: "#555",
-    grey2: "#666",
-    grey3: "#888",
-    grey4: "#aaa",
-    grey5: "#ccc",
-    grey6: "#ddd",
-    greyOutline: "#bbb",
+    grey0: "#444444",
+    grey1: "#555555",
+    grey2: "#666666",
+    grey3: "#888888",
+    grey4: "#aaaaaa",
+    grey5: "#cccccc",
+    grey6: "#dddddd",
+    greyOutline: "#bbbbbb",
     searchBg: "#303337",
-    success: "#53d155",
+    success: "#53d145",
     error: "#ff5555",
     warning: "#ffaa33",
-    disabled: "#eee",
+    disabled: "#eeeeee",
     shadow: "#00000006",
+    backdrop: "#0001",
   },
 });
+
+export * from "./categoryColors";

@@ -12,6 +12,15 @@ import {
   AlertProvider,
 } from "@/components/providers";
 
+// import * as Sentry from "@sentry/react-native";
+
+// Sentry.init({
+//   dsn: "https://513da0f66f89fdf1df6d6f3f53fe0fec@o4509282411216896.ingest.de.sentry.io/4509282412789840",
+//   // Adds more context data to events (IP address, cookies, user, etc.)
+//   // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+//   sendDefaultPii: true,
+// });
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -46,3 +55,5 @@ export default function RootLayout() {
     </ReduxToolkitProvider>
   );
 }
+
+// export default Sentry.wrap(RootLayout);

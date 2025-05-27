@@ -1,4 +1,9 @@
-import type { CategoryDto } from "@/types/dto";
+import type {
+  CategoryDto,
+  CategoryWithExpenseValueDto,
+  GetCategoriesWithSpentDto,
+  UpdateCategoryDto,
+} from "@/types/dto";
 import API from "./base";
 
 import { QUERY_TAG } from "@/constants";
@@ -11,6 +16,20 @@ const categoryApi = API.injectEndpoints({
         result
           ? result.map(({ id }) => ({ type: QUERY_TAG.CATEGORIES, id }))
           : [QUERY_TAG.CATEGORIES],
+    }),
+
+    getCategoriesWithExpenseValue: build.query<
+      CategoryWithExpenseValueDto[],
+      GetCategoriesWithSpentDto
+    >({
+      query: (params) => ({
+        url: "/categories/analytics",
+        method: "GET",
+        params,
+      }),
+      providesTags: (res, err, params) => [
+        { type: QUERY_TAG.ANALYTICS, params },
+      ],
     }),
 
     getCategory: build.query<CategoryDto, number>({
@@ -27,13 +46,10 @@ const categoryApi = API.injectEndpoints({
       invalidatesTags: [QUERY_TAG.CATEGORIES],
     }),
 
-    updateCategory: build.mutation<
-      any,
-      Partial<CategoryDto> & Pick<CategoryDto, "id">
-    >({
+    updateCategory: build.mutation<any, UpdateCategoryDto>({
       query: ({ id, ...body }) => ({
         url: `/categories/${id}`,
-        method: "PATH",
+        method: "PATCH",
         body,
       }),
       invalidatesTags: (res, err, { id }) => [
@@ -41,18 +57,12 @@ const categoryApi = API.injectEndpoints({
       ],
     }),
 
-    deleteCategory: build.mutation<
-      any,
-      Partial<CategoryDto> & Pick<CategoryDto, "id">
-    >({
-      query: ({ id, ...body }) => ({
+    deleteCategory: build.mutation<any, number>({
+      query: (id: number) => ({
         url: `/categories/${id}`,
-        method: "PATH",
-        body,
+        method: "DELETE",
       }),
-      invalidatesTags: (res, err, { id }) => [
-        { type: QUERY_TAG.CATEGORIES, id },
-      ],
+      invalidatesTags: (res, err, id) => [{ type: QUERY_TAG.CATEGORIES, id }],
     }),
   }),
   overrideExisting: true,
@@ -60,6 +70,7 @@ const categoryApi = API.injectEndpoints({
 
 export const {
   useGetCategoriesQuery,
+  useGetCategoriesWithExpenseValueQuery,
   useGetCategoryQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,

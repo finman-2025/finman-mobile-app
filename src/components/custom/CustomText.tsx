@@ -10,7 +10,7 @@ export type TextStatus =
   | "primary"
   | "success"
   | "warning"
-  | "danger"
+  | "error"
   | "label"
   | "hint"
   | "disabled"
@@ -56,14 +56,10 @@ export default memo((props: CustomTextProps) => {
   let themedColor: string = colors.black;
 
   if (color) themedColor = color;
-  else if (status === "primary") themedColor = colors.primary;
-  else if (status === "success") themedColor = colors.success;
-  else if (status === "warning") themedColor = colors.warning;
-  else if (status === "danger") themedColor = colors.error;
-  else if (status === "label") themedColor = colors.grey2;
   else if (status === "hint") themedColor = colors.grey3;
+  else if (status === "label") themedColor = colors.grey2;
   else if (status === "disabled") themedColor = colors.grey4;
-  else if (status === "white") themedColor = colors.white;
+  else if (status in colors) themedColor = colors[status];
 
   return (
     <Fragment>

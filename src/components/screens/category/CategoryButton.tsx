@@ -1,34 +1,48 @@
-import { memo } from "react";
+import { router } from "expo-router";
+import { Fragment, memo, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@rneui/themed";
 
+import type { CategoryDto } from "@/types/dto";
+
 import { CustomText } from "@/components/custom";
-import { router } from "expo-router";
+import CategoryActionsModal from "./CategoryActionsModal";
+
 import { PATH } from "@/constants";
 
-type IProps = {
-  id: number;
-  name: string;
-  image?: string;
-};
+type IProps = Pick<CategoryDto, "id" | "name" | "image">;
 
 export default memo(function CategoryButton(props: IProps) {
-  const { id, name, image } = props;
   const {
     theme: { colors },
   } = useTheme();
+  const { id, name, image } = props;
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <TouchableOpacity
-      style={[styles.card, { boxShadow: `0 5 5 ${colors.shadow}` }]}
-      onPress={() => router.push(PATH.CATEGORY(id))}
-    >
-      <Image
-        source={require("@/assets/images/logo.png")}
-        style={styles.image}
+    <Fragment>
+      <TouchableOpacity
+        style={[styles.card, { boxShadow: `0 3 10 ${colors.shadow}` }]}
+        onPress={() => router.push(PATH.CATEGORY(id, name))}
+        onLongPress={() => setShowModal(true)}
+      >
+        <Image
+          style={styles.image}
+          src={image}
+          source={require("@/assets/images/logo.png")}
+        />
+        <CustomText style={{ margin: "auto" }} numberOfLines={1}>
+          {name}
+        </CustomText>
+      </TouchableOpacity>
+
+      <CategoryActionsModal
+        categoryId={id}
+        show={showModal}
+        onCancel={() => setShowModal(false)}
       />
-      <CustomText style={{ margin: "auto" }}>{name}</CustomText>
-    </TouchableOpacity>
+    </Fragment>
   );
 });
 
@@ -37,7 +51,8 @@ const styles = StyleSheet.create({
     flex: 1,
     aspectRatio: 1,
     backgroundColor: "#fff",
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
     borderRadius: 20,
     gap: 4,
     alignItems: "center",

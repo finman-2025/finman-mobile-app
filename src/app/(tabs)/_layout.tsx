@@ -1,18 +1,26 @@
 import { router, Tabs } from "expo-router";
-import { useEffect } from "react";
-import { Platform, StyleSheet, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 import { useTheme } from "@rneui/themed";
 import { Feather, FontAwesome6, Fontisto } from "@expo/vector-icons";
 
-import { TabBarButton } from "@/components/custom";
+import { TabBarButton } from "@/components/common";
 
 import { PATH, TOKEN_NAME } from "@/constants";
-import { removeItem, getItem } from "@/utils/store-actions";
+import { getItem } from "@/utils/store-actions";
 
 export default function TabLayout() {
   const {
     theme: { colors },
   } = useTheme();
+
+  const [tokenChecked, setTokenChecked] = useState<boolean>(false);
 
   useEffect(() => {
     const checkTokens = async () => {
@@ -23,11 +31,12 @@ export default function TabLayout() {
       ]);
       if (!hasOnboarding) router.replace(PATH.ONBOARDING);
       else if (!accessToken) router.replace(PATH.LOGIN);
+      setTokenChecked(true);
     };
     checkTokens();
   }, []);
 
-  return (
+  return tokenChecked ? (
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -98,6 +107,14 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+  ) : (
+    <View style={{ flex: 1 }}>
+      <Image
+        style={{ width: 120, height: 120, opacity: 0.5, margin: "auto" }}
+        resizeMode="contain"
+        source={require("@/assets/images/logo.png")}
+      />
+    </View>
   );
 }
 

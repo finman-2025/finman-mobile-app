@@ -23,21 +23,26 @@ const reducers = combineReducers({
   home: homeReducer,
 });
 
+const rootReducer = (state, action) => {
+  return reducers(action.type === "RESET_STATES" ? undefined : state, action);
+};
+
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
   whitelist: ["home", "alert"],
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => {
     const middlewares = getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
+      serializableCheck: false,
     }).concat(API.middleware);
 
     return middlewares;

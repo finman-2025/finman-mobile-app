@@ -1,9 +1,9 @@
 import { Stack } from "expo-router";
 import { useTheme } from "@rneui/themed";
 
-import { Header } from "@/components/custom";
+import { Header } from "@/components/common";
 
-import { TEXT } from "@/utils/text";
+import { SUMMARY, TEXT } from "@/utils/text";
 
 export default function ProfileLayout() {
   const {
@@ -22,6 +22,14 @@ export default function ProfileLayout() {
       initialRouteName="index"
     >
       <Stack.Screen name="index" options={{ headerTitle: TEXT.profile }} />
+      <Stack.Screen
+        name="update"
+        options={{ headerTitle: SUMMARY.update(TEXT.information) }}
+      />
+      <Stack.Screen
+        name="change-password"
+        options={{ headerTitle: SUMMARY.change(TEXT.password) }}
+      />
     </Stack>
   );
 }

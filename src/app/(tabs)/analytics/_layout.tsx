@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { useTheme } from "@rneui/themed";
 
-import { Header } from "@/components/custom";
+import { Header } from "@/components/common";
 
 import { TEXT } from "@/utils/text";
 

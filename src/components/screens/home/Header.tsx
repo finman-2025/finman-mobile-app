@@ -1,12 +1,23 @@
+import { router } from "expo-router";
 import { memo } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { useTheme } from "@rneui/themed";
 
-import { CustomText } from "@/components/custom";
+import { CustomSkeleton, CustomText } from "@/components/custom";
 
+import { PATH } from "@/constants";
 import { TEXT } from "@/utils/text";
 
-export default memo(function Header() {
+type IProps = {
+  avatar?: string;
+  name: string;
+  loading?: boolean;
+  error?: boolean;
+};
+
+export default memo(function Header(props: IProps) {
+  const { avatar, name, loading, error } = props;
+
   const {
     theme: { colors },
   } = useTheme();
@@ -17,20 +28,27 @@ export default memo(function Header() {
         source={require("@/assets/images/background.png")}
         style={styles.background}
       />
-      <View style={styles.userInfo}>
-        <Image
-          source={require("@/assets/images/avatar.png")}
-          style={styles.avatar}
-        />
-        <View style={{ gap: 2 }}>
-          <CustomText type="p4" color={colors.grey5}>
-            {TEXT.hello}
-          </CustomText>
-          <CustomText type="h5" status="white">
-            Nguyễn Văn A
-          </CustomText>
-        </View>
-      </View>
+      {error || loading ? null : (
+        <TouchableOpacity
+          style={styles.userInfo}
+          activeOpacity={0.5}
+          onPress={() => router.push(PATH.PROFILE)}
+        >
+          <Image
+            src={avatar}
+            source={require("@/assets/images/avatar.png")}
+            style={styles.avatar}
+          />
+          <View style={{ gap: 1 }}>
+            <CustomText type="p4" color={colors.grey5}>
+              {TEXT.hello}
+            </CustomText>
+            <CustomText type="h5" status="white">
+              {name}
+            </CustomText>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 });

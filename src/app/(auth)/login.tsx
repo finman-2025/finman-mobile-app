@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import {
   ScrollView,
   TouchableOpacity,
@@ -8,21 +9,26 @@ import {
 import { Controller, useForm } from "react-hook-form";
 
 import type { LoginReqDto } from "@/types/dto";
-
-import { CustomButton, CustomInput, CustomText } from "@/components/custom";
-
-import { SUMMARY, TEXT } from "@/utils/text";
 import { useLogin } from "@/hooks/auth";
+
+import {
+  CustomButton,
+  CustomText,
+  TextInput,
+  PasswordInput,
+} from "@/components/custom";
+
+import { PATH } from "@/constants";
+import { SUMMARY, TEXT } from "@/utils/text";
 
 export default function LoginScreen() {
   const [login, { isLoading }] = useLogin();
 
   const { control, handleSubmit } = useForm<LoginReqDto>({
     disabled: isLoading,
-    defaultValues: { username: "", password: "" },
   });
 
-  const onSubmit = handleSubmit((value: LoginReqDto) => login(value));
+  const onSubmit = handleSubmit((value) => login(value));
 
   return (
     <ScrollView contentContainerStyle={styles.loginPage}>
@@ -45,13 +51,17 @@ export default function LoginScreen() {
         <Controller
           control={control}
           rules={{ required: SUMMARY.pleaseEnter(TEXT.username) }}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <CustomInput
+          render={({
+            field: { value, onChange, disabled },
+            fieldState: { error },
+          }) => (
+            <TextInput
               placeholder={TEXT.username}
               autoCapitalize="none"
               leftIcon={{ type: "feather", name: "user" }}
               value={value}
               onChangeText={onChange}
+              disabled={disabled}
               errorMessage={error?.message}
             />
           )}
@@ -61,14 +71,16 @@ export default function LoginScreen() {
         <Controller
           control={control}
           rules={{ required: SUMMARY.pleaseEnter(TEXT.password) }}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <CustomInput
-              type="password"
+          render={({
+            field: { value, onChange, disabled },
+            fieldState: { error },
+          }) => (
+            <PasswordInput
               placeholder={TEXT.password}
-              autoCapitalize="none"
               leftIcon={{ type: "feather", name: "key" }}
               value={value}
               onChangeText={onChange}
+              disabled={disabled}
               errorMessage={error?.message}
             />
           )}
@@ -86,7 +98,10 @@ export default function LoginScreen() {
           {TEXT.login}
         </CustomButton>
 
-        <TouchableOpacity style={{ alignSelf: "center" }}>
+        <TouchableOpacity
+          style={{ alignSelf: "center" }}
+          onPress={() => router.replace(PATH.REGISTER)}
+        >
           <CustomText type="h5" status="primary">
             {TEXT.createAccount}
           </CustomText>

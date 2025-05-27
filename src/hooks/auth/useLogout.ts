@@ -2,11 +2,14 @@ import { router } from "expo-router";
 
 import type { IMutateFunction } from "@/types/frontend";
 import { useLogoutMutation } from "@/api/auth";
+import { useAppDispatch } from "../common";
 
 import { PATH, TOKEN_NAME } from "@/constants";
 import { removeItem } from "@/utils/store-actions";
 
 export const useLogout = () => {
+  const dispatch = useAppDispatch();
+
   const [logout, result] = useLogoutMutation();
 
   const handleLogout = () =>
@@ -17,6 +20,7 @@ export const useLogout = () => {
           removeItem(TOKEN_NAME.ACCESS_TOKEN),
           removeItem(TOKEN_NAME.REFRESH_TOKEN),
         ]);
+        dispatch({ type: "RESET_STATES" });
         router.replace(PATH.LOGIN);
       });
 

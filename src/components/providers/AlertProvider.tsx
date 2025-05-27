@@ -10,7 +10,6 @@ import { hide } from "@/store/reducers";
 import { CustomButton, CustomText } from "@/components/custom";
 
 import { TEXT } from "@/utils/text";
-import { AppearView } from "../common";
 
 export default function AlertProvider({ children }: PropsWithChildren) {
   const {
@@ -24,33 +23,31 @@ export default function AlertProvider({ children }: PropsWithChildren) {
     <Fragment>
       {children}
       <View style={{ position: "absolute", flex: 1 }}>
-        <Overlay isVisible={props.show} overlayStyle={styles.wrapper}>
-          <AppearView style={styles.container}>
-            <View style={styles.wrapIcon}>
-              <View style={styles.behindIcon}></View>
-              <Ionicons
-                name={
-                  props.status === "success"
-                    ? "checkmark-circle"
-                    : "close-circle"
-                }
-                size={66}
-                color={
-                  props.status === "success" ? colors.success : colors.error
-                }
-              />
-            </View>
-            <CustomText style={styles.message}>{props.message}</CustomText>
-            <CustomButton
-              color={props.status === "success" ? "success" : "error"}
-              onPress={() => {
-                props.onOk && props.onOk();
-                dispatch(hide());
-              }}
-            >
-              {TEXT.ok}
-            </CustomButton>
-          </AppearView>
+        <Overlay
+          isVisible={props.show}
+          overlayStyle={styles.wrapper}
+          animationType="fade"
+        >
+          <View style={styles.wrapIcon}>
+            <View style={styles.behindIcon}></View>
+            <Ionicons
+              name={
+                props.status === "success" ? "checkmark-circle" : "close-circle"
+              }
+              size={66}
+              color={props.status === "success" ? colors.success : colors.error}
+            />
+          </View>
+          <CustomText style={styles.message}>{props.message}</CustomText>
+          <CustomButton
+            color={props.status === "success" ? "success" : "error"}
+            onPress={() => {
+              props.onOk && props.onOk();
+              dispatch(hide());
+            }}
+          >
+            {TEXT.ok}
+          </CustomButton>
         </Overlay>
       </View>
     </Fragment>
@@ -58,11 +55,16 @@ export default function AlertProvider({ children }: PropsWithChildren) {
 }
 
 const styles = StyleSheet.create({
-  wrapper: { width: "80%", marginBottom: 30, borderRadius: 14 },
-  container: { justifyContent: "center", gap: 28 },
+  wrapper: {
+    width: "80%",
+    marginBottom: 30,
+    borderRadius: 12,
+    justifyContent: "center",
+    gap: 24,
+  },
   wrapIcon: {
     position: "absolute",
-    top: -34,
+    top: -24,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -77,6 +79,6 @@ const styles = StyleSheet.create({
   message: {
     textAlign: "center",
     marginTop: 44,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
   },
 });
