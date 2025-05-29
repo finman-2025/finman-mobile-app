@@ -13,14 +13,13 @@ import {
 
 import API from "@/api/base";
 
-import { alertReducer, homeReducer } from "./reducers";
+import { alertReducer } from "./reducers";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const reducers = combineReducers({
   api: API.reducer,
   alert: alertReducer,
-  home: homeReducer,
 });
 
 const rootReducer = (state, action) => {
@@ -30,7 +29,7 @@ const rootReducer = (state, action) => {
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["home", "alert"],
+  whitelist: ["alert"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

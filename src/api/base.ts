@@ -92,6 +92,7 @@ const API = createApi({
     QUERY_TAG.ANALYTICS,
     QUERY_TAG.EXPENSES,
     QUERY_TAG.TOTAL_EXPENSE,
+    QUERY_TAG.REPORTS,
     QUERY_TAG.FINANCIAL_TIPS,
   ],
   baseQuery: baseQueryWithInterceptor,

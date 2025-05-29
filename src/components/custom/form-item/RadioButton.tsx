@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
   radioContainer: {
     pointerEvents: "none",
     backgroundColor: "transparent",
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     marginLeft: 0,
     marginRight: 0,
   },

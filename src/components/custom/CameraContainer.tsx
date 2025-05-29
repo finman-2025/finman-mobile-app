@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTheme } from "@rneui/themed";
 
 type IProps = {
   onPermissionDenied?: () => void;
@@ -16,6 +17,10 @@ type IProps = {
 
 export default memo(function CameraContainer(props: IProps) {
   const { onPermissionDenied, onPictureSaved, loading } = props;
+
+  const {
+    theme: { colors },
+  } = useTheme();
 
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -32,7 +37,7 @@ export default memo(function CameraContainer(props: IProps) {
 
   const takePicture = () => {
     ref.current?.takePictureAsync({
-      skipProcessing: true,
+      quality: 0.5,
       onPictureSaved: (picture) => onPictureSaved && onPictureSaved(picture),
     });
   };
@@ -48,12 +53,21 @@ export default memo(function CameraContainer(props: IProps) {
         {loading && (
           <ActivityIndicator style={styles.spinner} size={80} color="#fff" />
         )}
+      </CameraView>
+      <View style={styles.bottom}>
         <TouchableOpacity
-          style={[styles.button, { opacity: loading ? 0.5 : 1 }]}
+          style={[
+            styles.button,
+            {
+              backgroundColor: colors.grey2,
+              borderColor: colors.disabled,
+              opacity: loading ? 0.5 : 1,
+            },
+          ]}
           onPress={takePicture}
           disabled={loading}
         />
-      </CameraView>
+      </View>
     </View>
   ) : null;
 });
@@ -61,14 +75,11 @@ export default memo(function CameraContainer(props: IProps) {
 const styles = StyleSheet.create({
   camera: { flex: 1, alignItems: "center" },
   spinner: { margin: "auto" },
+  bottom: { alignItems: "center", paddingTop: 30, paddingBottom: 50 },
   button: {
-    position: "absolute",
-    bottom: "12%",
-    backgroundColor: "white",
     height: 90,
     width: 90,
     borderRadius: 50,
     borderWidth: 12,
-    borderColor: "#fff3",
   },
 });

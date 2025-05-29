@@ -7,6 +7,7 @@ import type {
 import API from "./base";
 
 import { QUERY_TAG } from "@/constants";
+import _ from "lodash";
 
 const categoryApi = API.injectEndpoints({
   endpoints: (build) => ({
@@ -38,11 +39,17 @@ const categoryApi = API.injectEndpoints({
     }),
 
     createCategory: build.mutation<any, Partial<CategoryDto>>({
-      query: (body) => ({
-        url: "/categories",
-        method: "POST",
-        body,
-      }),
+      query: (data) => {
+        const body = new FormData();
+        _.keysIn(data).forEach(
+          (item) => data[item] && body.append(item, data[item])
+        );
+        return {
+          url: "/categories",
+          method: "POST",
+          body,
+        };
+      },
       invalidatesTags: [QUERY_TAG.CATEGORIES],
     }),
 

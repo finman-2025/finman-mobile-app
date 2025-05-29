@@ -7,6 +7,8 @@ export * from "./form-item/CustomInput";
 export { default as Select } from "./form-item/Select";
 export { default as RadioGroup } from "./form-item/RadioGroup";
 export { default as CustomButton } from "./form-item/CustomButton";
+export { default as ImageUpload } from "./form-item/image-upload/ImageUpload";
+export { default as DatePicker } from "./form-item/date-picker/DatePicker";
 
 export { default as ConfirmModal } from "./modal/ConfirmModal";
 export { default as CustomBottomSheet } from "./modal/CustomBottomSheet";

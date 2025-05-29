@@ -1,4 +1,5 @@
 import type {
+  ChangePasswordDto,
   LoginReqDto,
   LoginResDto,
   RegisterDto,
@@ -18,9 +19,8 @@ const authApi = API.injectEndpoints({
     logout: build.mutation<any, void>({
       query: () => ({ url: "/auth/logout", method: "POST" }),
     }),
-    getProfile: build.query<UserDto, void>({
-      query: () => "/auth/profile",
-      providesTags: [QUERY_TAG.PROFILE],
+    changePassword: build.mutation<any, ChangePasswordDto>({
+      query: (body) => ({ url: "/auth/change-password", method: "POST", body }),
     }),
   }),
   overrideExisting: true,
@@ -30,5 +30,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
-  useGetProfileQuery,
+  useChangePasswordMutation,
 } = authApi;

@@ -76,7 +76,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="chatbot"
         options={{
           tabBarIcon: ({ focused }) => (
@@ -85,7 +85,8 @@ export default function TabLayout() {
             </TabBarButton>
           ),
         }}
-      />
+      /> */}
+      <Tabs.Screen name="chatbot" options={{ href: null }} />
       <Tabs.Screen
         name="categories"
         options={{

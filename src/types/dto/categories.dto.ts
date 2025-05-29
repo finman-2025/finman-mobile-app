@@ -1,4 +1,5 @@
 import { ExpenseType, ExpenseValueDto } from ".";
+import { IImageFile } from "../frontend";
 
 export type CategoryDto = {
   id: number;
@@ -18,7 +19,7 @@ export type CategoryWithExpenseValueDto = Pick<
 export type CreateCategoryDto = {
   name: string;
   limit: number;
-  image?: string;
+  image?: IImageFile;
   type: ExpenseType;
 };
 

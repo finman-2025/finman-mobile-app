@@ -4,7 +4,7 @@ import { useTheme } from "@rneui/themed";
 
 import { CustomText } from "@/components/custom";
 
-import { compareDate, getAllDatesOfMonth } from "@/utils/common";
+import { compareDay, getAllDatesOfMonth } from "@/utils/common";
 
 type IProps = {
   color?: string;
@@ -39,7 +39,7 @@ export default memo(function DayCarousel(props: IProps) {
           key={index}
           color={color}
           date={item}
-          active={compareDate(value, item)}
+          active={compareDay(value, item)}
           onPress={onChange}
         />
       )}

@@ -20,7 +20,10 @@ export default function HomeLayout() {
         ),
       }}
     >
-      <Stack.Screen name="scan-receipt" />
+      <Stack.Screen
+        name="scan-receipt"
+        options={{ headerTitle: TEXT.scanReceipt }}
+      />
       <Stack.Screen
         name="add-expense"
         options={{ headerTitle: SUMMARY.add(TEXT.expense) }}

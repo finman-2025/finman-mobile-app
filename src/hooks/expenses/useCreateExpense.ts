@@ -4,9 +4,7 @@ import type { CreateExpenseDto, GetExpensesDto } from "@/types/dto";
 import type { IMutateFunction } from "@/types/frontend";
 
 import { useAppDispatch } from "../common";
-import { success } from "@/store/reducers";
-
-import { SUMMARY, TEXT } from "@/utils/text";
+import { warning } from "@/store/reducers";
 
 export const useCreateExpense = () => {
   const dispatch = useAppDispatch();
@@ -19,9 +17,9 @@ export const useCreateExpense = () => {
   ) =>
     createExpense(value)
       .unwrap()
-      .then(() => {
+      .then(({ message }) => {
         onSuccess();
-        dispatch(success({ message: SUMMARY.successfully(TEXT.create) }));
+        message && dispatch(warning({ message }));
       });
 
   const res: [

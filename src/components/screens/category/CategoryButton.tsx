@@ -30,7 +30,7 @@ export default memo(function CategoryButton(props: IProps) {
         <Image
           style={styles.image}
           src={image}
-          source={require("@/assets/images/logo.png")}
+          source={require("@/assets/images/category.png")}
         />
         <CustomText style={{ margin: "auto" }} numberOfLines={1}>
           {name}

@@ -4,7 +4,7 @@ import { RefreshControl, ScrollView } from "react-native";
 import { useTheme } from "@rneui/themed";
 
 type IProps = ScrollViewProps & {
-  onRefresh?: () => Promise<any>;
+  onRefresh?: () => Promise<any> | any;
 };
 
 export default memo(function RefreshableScrollView(props: IProps) {
@@ -28,7 +28,7 @@ export default memo(function RefreshableScrollView(props: IProps) {
         {
           paddingHorizontal: 16,
           paddingTop: 20,
-          paddingBottom: 120,
+          paddingBottom: 150,
         },
         contentContainerStyle,
       ]}
@@ -37,7 +37,6 @@ export default memo(function RefreshableScrollView(props: IProps) {
           refreshing={refreshing}
           onRefresh={handleRefresh}
           colors={[colors.primary]}
-          // progressBackgroundColor={colors.cardBg}
         />
       }
     />

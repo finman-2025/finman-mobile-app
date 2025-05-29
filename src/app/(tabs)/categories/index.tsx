@@ -7,14 +7,14 @@ import {
 import { useGetCategoriesQuery } from "@/api/categories";
 
 export default function CategoriesScreen() {
-  const { data, isLoading, isError, refetch } = useGetCategoriesQuery();
+  const { data, isFetching, isError, refetch } = useGetCategoriesQuery();
 
   return (
     <RefreshableScrollView
       contentContainerStyle={{ gap: 24 }}
       onRefresh={refetch}
     >
-      <CategoryButtonsList data={data} loading={isLoading} error={isError} />
+      <CategoryButtonsList data={data} loading={isFetching} error={isError} />
 
       <CreateCategoryButton />
     </RefreshableScrollView>

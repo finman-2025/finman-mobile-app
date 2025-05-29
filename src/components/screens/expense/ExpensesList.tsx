@@ -41,6 +41,7 @@ export default memo(function ExpensesList(props: IProps) {
           data={data}
           renderItem={({ item }) => <ExpenseCard data={item} />}
           contentContainerStyle={{ gap: 16 }}
+          style={{ overflow: "visible" }}
           scrollEnabled={false}
         />
       )}

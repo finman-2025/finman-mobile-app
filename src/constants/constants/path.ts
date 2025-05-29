@@ -19,6 +19,8 @@ const PATH = {
   }),
 
   ANALYTICS: "/analytics",
+  EXPORT_REPORT: "/analytics/export-report",
+  EXPORT_HISTORY: "/analytics/export-report/history",
 
   CATEGORIES: "/categories",
   CATEGORY: (categoryId: number, categoryName: string) => ({

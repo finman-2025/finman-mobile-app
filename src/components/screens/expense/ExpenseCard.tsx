@@ -28,7 +28,13 @@ export default memo(function ExpenseCard(props: PropsType) {
   return (
     <Fragment>
       <TouchableOpacity
-        style={[styles.card, { boxShadow: `0 5 5 ${colors.shadow}` }]}
+        style={[
+          styles.card,
+          {
+            backgroundColor: colors.white,
+            boxShadow: `0 5 5 ${colors.shadow}`,
+          },
+        ]}
         activeOpacity={0.5}
         onLongPress={() => setShowModal(true)}
       >
@@ -66,7 +72,6 @@ export default memo(function ExpenseCard(props: PropsType) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 12,

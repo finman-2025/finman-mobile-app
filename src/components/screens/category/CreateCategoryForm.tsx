@@ -10,6 +10,7 @@ import {
   TextInput,
   NumberInput,
   RadioGroup,
+  ImageUpload,
 } from "@/components/custom";
 
 import { EXPENSE_TYPE } from "@/constants";
@@ -31,8 +32,12 @@ export default memo(function CreateCategoryForm(props: IProps) {
 
   const type = watch("type");
 
-  const submit = handleSubmit(({ image, name, limit }) =>
-    onSubmit({ image, name, limit: limit ? +limit : undefined })
+  const submit = handleSubmit((value) =>
+    onSubmit({
+      ...value,
+      type: value.type,
+      limit: value.limit ? +value.limit : undefined,
+    })
   );
 
   return (
@@ -40,12 +45,12 @@ export default memo(function CreateCategoryForm(props: IProps) {
       <Controller
         control={control}
         render={({ field: { value, onChange, disabled } }) => (
-          <TextInput
+          <ImageUpload
             label={TEXT.image}
-            placeholder={SUMMARY.enter(TEXT.url)}
             value={value}
-            onChangeText={onChange}
+            onUpload={onChange}
             disabled={disabled}
+            style={{ marginBottom: 20 }}
           />
         )}
         name="image"

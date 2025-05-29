@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type StateType = {
   show?: boolean;
-  status?: "success" | "error";
+  status?: "success" | "warning" | "error";
   message: string;
   onOk?: () => void;
 };
@@ -22,6 +22,15 @@ const slice = createSlice({
       state.message = message;
       state.onOk = onOk;
     },
+    warning: (
+      state,
+      { payload: { message, onOk } }: PayloadAction<StateType>
+    ) => {
+      state.show = true;
+      state.status = "warning";
+      state.message = message;
+      state.onOk = onOk;
+    },
     error: (
       state,
       { payload: { message, onOk } }: PayloadAction<StateType>
@@ -38,6 +47,6 @@ const slice = createSlice({
   },
 });
 
-export const { success, error, hide } = slice.actions;
+export const { success, warning, error, hide } = slice.actions;
 
 export const alertReducer = slice.reducer;

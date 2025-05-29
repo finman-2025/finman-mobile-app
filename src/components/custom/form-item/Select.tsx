@@ -30,7 +30,7 @@ export default memo(function Select(props: IProps) {
 
   return (
     <Fragment>
-      <TouchableOpacity onPress={() => setShowModal(true)}>
+      <TouchableOpacity disabled={disabled} onPress={() => setShowModal(true)}>
         <TextInput
           {...rest}
           disabled

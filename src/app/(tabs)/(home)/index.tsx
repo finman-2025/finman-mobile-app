@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 import type { CategoryWithExpenseValueDto } from "@/types/dto";
-import { useGetProfileQuery } from "@/api/auth";
+import { useGetProfileQuery } from "@/api/user";
 import { useGetCategoriesWithExpenseValueQuery } from "@/api/categories";
 import { useGetTotalExpenseValueQuery } from "@/api/expenses";
 import { useGetFinancialTipsQuery } from "@/api/financial-tips";

@@ -57,7 +57,7 @@ export default memo(function RadioGroup(props: IProps) {
           />
         )}
         horizontal
-        contentContainerStyle={[{ gap: 30 }, style]}
+        contentContainerStyle={[{ gap: 40 }, style]}
         scrollEnabled={false}
       />
       {errorMessage && (

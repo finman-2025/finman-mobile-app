@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Overlay, useTheme } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,37 +19,74 @@ export default function AlertProvider({ children }: PropsWithChildren) {
   const props = useAppSelector(({ alert }) => alert);
   const dispatch = useAppDispatch();
 
+  const statusStyle = useMemo(
+    () => ({
+      success: {
+        top: -24,
+        bgWidth: 50,
+        iconSize: 66,
+        icon: "checkmark-circle",
+        color: colors.success,
+        btnStatus: "success",
+      },
+      warning: {
+        top: -30,
+        bgWidth: 8,
+        iconSize: 68,
+        icon: "warning",
+        color: colors.warning,
+        btnStatus: "warning",
+      },
+      error: {
+        top: -24,
+        bgWidth: 50,
+        iconSize: 66,
+        icon: "close-circle",
+        color: colors.error,
+        btnStatus: "error",
+      },
+    }),
+    [colors]
+  );
+
   return (
     <Fragment>
       {children}
-      <View style={{ position: "absolute", flex: 1 }}>
-        <Overlay
-          isVisible={props.show}
-          overlayStyle={styles.wrapper}
-          animationType="fade"
-        >
-          <View style={styles.wrapIcon}>
-            <View style={styles.behindIcon}></View>
-            <Ionicons
-              name={
-                props.status === "success" ? "checkmark-circle" : "close-circle"
-              }
-              size={66}
-              color={props.status === "success" ? colors.success : colors.error}
-            />
-          </View>
-          <CustomText style={styles.message}>{props.message}</CustomText>
-          <CustomButton
-            color={props.status === "success" ? "success" : "error"}
-            onPress={() => {
-              props.onOk && props.onOk();
-              dispatch(hide());
-            }}
+      {props.show && (
+        <View style={{ position: "absolute", flex: 1 }}>
+          <Overlay
+            isVisible={props.show}
+            overlayStyle={styles.wrapper}
+            animationType="fade"
           >
-            {TEXT.ok}
-          </CustomButton>
-        </Overlay>
-      </View>
+            <View
+              style={[styles.wrapIcon, { top: statusStyle[props.status].top }]}
+            >
+              <View
+                style={[
+                  styles.behindIcon,
+                  { width: statusStyle[props.status].bgWidth },
+                ]}
+              />
+              <Ionicons
+                name={statusStyle[props.status].icon as any}
+                size={statusStyle[props.status].iconSize}
+                color={statusStyle[props.status].color}
+              />
+            </View>
+            <CustomText style={styles.message}>{props.message}</CustomText>
+            <CustomButton
+              color={statusStyle[props.status].btnStatus}
+              onPress={() => {
+                props.onOk && props.onOk();
+                dispatch(hide());
+              }}
+            >
+              {TEXT.ok}
+            </CustomButton>
+          </Overlay>
+        </View>
+      )}
     </Fragment>
   );
 }
@@ -64,15 +101,13 @@ const styles = StyleSheet.create({
   },
   wrapIcon: {
     position: "absolute",
-    top: -24,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
   },
   behindIcon: {
     position: "absolute",
-    height: 50,
-    width: 50,
+    height: 45,
     borderRadius: 100,
     backgroundColor: "#fff",
   },

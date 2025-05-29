@@ -1,7 +1,6 @@
 export type RegisterDto = {
   username: string;
   password: string;
-  confirmPassword?: string;
   email: string;
   name: string;
 };
@@ -14,4 +13,9 @@ export type LoginReqDto = {
 export type LoginResDto = {
   accessToken: string;
   refreshToken: string;
+};
+
+export type ChangePasswordDto = {
+  oldPassword: string;
+  newPassword: string;
 };

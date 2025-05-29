@@ -52,7 +52,7 @@ export default function AnalyticsScreen() {
   return (
     <RefreshableScrollView
       onRefresh={refetch}
-      contentContainerStyle={{ gap: 24, paddingTop: 10 }}
+      contentContainerStyle={{ gap: 24 }}
     >
       <MonthCarousel value={date} onChange={setDate} />
 

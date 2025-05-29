@@ -37,7 +37,7 @@ export default memo(function Header(props: IProps) {
           <Image
             src={avatar}
             source={require("@/assets/images/avatar.png")}
-            style={styles.avatar}
+            style={[styles.avatar, { backgroundColor: `${colors.primary}22` }]}
           />
           <View style={{ gap: 1 }}>
             <CustomText type="p4" color={colors.grey5}>

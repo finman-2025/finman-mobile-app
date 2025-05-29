@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 
-import type { LoginReqDto, RegisterDto } from "@/types/dto";
+import type { RegisterDto } from "@/types/dto";
 import type { IMutateFunction } from "@/types/frontend";
 import { useRegisterMutation } from "@/api/auth";
 import { useAppDispatch } from "../common";

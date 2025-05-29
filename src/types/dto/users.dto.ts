@@ -11,3 +11,10 @@ export type UserDto = {
   phoneNumber?: string;
   address?: string;
 };
+
+export type UpdateUserDto = Partial<
+  Pick<
+    UserDto,
+    "name" | "email" | "sex" | "phoneNumber" | "dateOfBirth" | "address"
+  >
+>;

@@ -1,11 +1,5 @@
 import { router } from "expo-router";
-import {
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Image,
-} from "react-native";
+import { ScrollView, TouchableOpacity, StyleSheet, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 
 import type { RegisterDto } from "@/types/dto";
@@ -18,18 +12,22 @@ import {
   PasswordInput,
 } from "@/components/custom";
 
-import { PATH } from "@/constants";
+import type { IRegister } from "@/types/frontend";
+
+import { PATH, EMAIL_REGEX, NAME_REGEX } from "@/constants";
 import { SUMMARY, TEXT } from "@/utils/text";
-import { emailRegex, nameRegex } from "@/utils/common";
+import _ from "lodash";
 
 export default function RegisterScreen() {
   const [register, { isLoading }] = useRegister();
 
-  const { control, handleSubmit } = useForm<RegisterDto>({
+  const { control, handleSubmit } = useForm<IRegister>({
     disabled: isLoading,
   });
 
-  const onSubmit = handleSubmit((value) => register(value));
+  const onSubmit = handleSubmit((value) =>
+    register(_.omit(value, "confirmPassword"))
+  );
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.registerPage}>
@@ -109,7 +107,7 @@ export default function RegisterScreen() {
           rules={{
             required: SUMMARY.pleaseEnter(TEXT.fullname),
             pattern: {
-              value: nameRegex,
+              value: NAME_REGEX,
               message: SUMMARY.invalid(TEXT.fullname),
             },
           }}
@@ -134,7 +132,7 @@ export default function RegisterScreen() {
           rules={{
             required: SUMMARY.pleaseEnter(TEXT.email),
             pattern: {
-              value: emailRegex,
+              value: EMAIL_REGEX,
               message: SUMMARY.invalid(TEXT.email),
             },
           }}

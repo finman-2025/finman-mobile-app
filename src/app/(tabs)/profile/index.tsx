@@ -1,15 +1,15 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useTheme } from "@rneui/themed";
 import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 
-import { useGetProfileQuery } from "@/api/auth";
+import { useGetProfileQuery } from "@/api/user";
 
 import { CustomSkeleton, CustomText } from "@/components/custom";
 import { Menu, RefreshableScrollView } from "@/components/common";
 
 import { SUMMARY, TEXT } from "@/utils/text";
 import { PATH } from "@/constants";
-import { LogoutButton } from "@/components/screens/profile";
+import { Avatar, LogoutButton } from "@/components/screens/profile";
 import { Fragment } from "react";
 
 export default function ProfileScreen() {
@@ -17,7 +17,7 @@ export default function ProfileScreen() {
     theme: { colors },
   } = useTheme();
 
-  const { data, isFetching, isError, refetch } = useGetProfileQuery();
+  const { data, isLoading, isError, refetch } = useGetProfileQuery();
 
   return (
     <RefreshableScrollView
@@ -28,7 +28,7 @@ export default function ProfileScreen() {
         <CustomText status="label" style={{ textAlign: "center" }}>
           {TEXT.errorOccurred}
         </CustomText>
-      ) : isFetching ? (
+      ) : isLoading ? (
         <View style={styles.loader}>
           <CustomSkeleton circle height={100} width={100} />
           <CustomSkeleton height={30} width={200} />
@@ -37,11 +37,7 @@ export default function ProfileScreen() {
       ) : (
         <Fragment>
           <View style={styles.top}>
-            <Image
-              style={styles.image}
-              src={data?.avatar}
-              source={require("@/assets/images/avatar.png")}
-            />
+            <Avatar avatar={data?.avatar} />
             <CustomText type="h4">{data?.name}</CustomText>
           </View>
 
