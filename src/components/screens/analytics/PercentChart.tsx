@@ -1,15 +1,15 @@
-import { memo, useMemo } from "react";
-import { View } from "react-native";
-import { PieChart } from "react-native-gifted-charts";
+import { Fragment, memo, useMemo } from "react";
+import { StyleSheet, View } from "react-native";
+import PieChart from "react-native-pie-chart";
 
 import type { ExpenseType } from "@/types/dto";
 import { CustomSkeleton, CustomText } from "@/components/custom";
 
+import { EXPENSE_TYPE } from "@/constants";
 import { TEXT } from "@/utils/text";
 import { getCategoryColor, useTheme } from "@/utils/theme";
 import { toNumberString } from "@/utils/common";
-import { sum } from "lodash";
-import { EXPENSE_TYPE } from "@/constants";
+import _ from "lodash";
 
 type IProps = {
   data?: { id: number; value: number; type: ExpenseType }[];
@@ -26,51 +26,62 @@ export default memo(function PercentChart(props: IProps) {
   } = useTheme();
 
   const total = useMemo(
-    () => sum(data?.map(({ value }) => value) ?? []),
+    () => data?.reduce((result, { value }) => result + value, 0) ?? 0,
     [data]
   );
 
   const pieData = useMemo(
     () =>
-      total
-        ? data.map(({ id, value, type }) => ({
-            value: value / total,
-            color: getCategoryColor(type, id),
-          }))
-        : [{ value: 10, color: colors.disabled }],
+      total && data
+        ? data
+            .filter(({ value }) => value)
+            .map(({ id, value, type }) => ({
+              value: (value * 100) / total,
+              color: getCategoryColor(type, id),
+            }))
+        : [],
     [data, total]
   );
 
   return (
-    <View style={{ margin: "auto", height: 240 }}>
+    <View style={styles.wrapper}>
       {error ? (
-        <CustomText status="hint" style={{ margin: "auto" }}>
-          {TEXT.errorOccurred}
-        </CustomText>
+        <CustomText status="hint">{TEXT.errorOccurred}</CustomText>
       ) : loading ? (
         <CustomSkeleton circle width={240} height={240} />
       ) : (
-        <PieChart
-          donut
-          data={pieData}
-          radius={120}
-          innerRadius={90}
-          centerLabelComponent={() => {
-            return (
-              <View style={{ alignItems: "center", marginTop: 4 }}>
-                <CustomText
-                  type="h3"
-                  status={type === EXPENSE_TYPE.OUTCOME ? "error" : "success"}
-                >
-                  {type === EXPENSE_TYPE.OUTCOME ? "-" : "+"}{" "}
-                  {toNumberString(total)}
-                </CustomText>
-                <CustomText type="p2">đ</CustomText>
-              </View>
-            );
-          }}
-        />
+        <Fragment>
+          <PieChart
+            widthAndHeight={240}
+            series={
+              pieData.length > 0
+                ? pieData
+                : [{ value: 10, color: colors.disabled }]
+            }
+            cover={0.75}
+          />
+          <View style={styles.center}>
+            <CustomText
+              type="h3"
+              status={type === EXPENSE_TYPE.OUTCOME ? "error" : "success"}
+            >
+              {type === EXPENSE_TYPE.OUTCOME ? "-" : "+"}{" "}
+              {toNumberString(total)}
+            </CustomText>
+            <CustomText type="p2">đ</CustomText>
+          </View>
+        </Fragment>
       )}
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  wrapper: {
+    height: 240,
+    margin: "auto",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  center: { position: "absolute", alignItems: "center", paddingTop: 4 },
 });

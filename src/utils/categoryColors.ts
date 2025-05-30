@@ -6,7 +6,7 @@ export const categoryColors: Record<ExpenseType, string[]> = {
 };
 
 export const getCategoryColor = (type: ExpenseType, id: number): string => {
-  return id === 0
+  return id === 0 || !(type in categoryColors)
     ? "#cccccc"
     : categoryColors[type][id % categoryColors[type].length];
 };

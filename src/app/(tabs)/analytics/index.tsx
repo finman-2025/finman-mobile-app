@@ -32,7 +32,7 @@ export default function AnalyticsScreen() {
     });
 
   const categories = useMemo(
-    () => data?.filter(({ type }) => !type || type === expenseType),
+    () => data?.filter(({ type }) => !type || type === expenseType) ?? [],
     [data, expenseType]
   );
 
