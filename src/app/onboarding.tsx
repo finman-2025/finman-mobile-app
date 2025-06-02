@@ -14,6 +14,7 @@ import { StepProgress } from "@/components/common";
 import { CustomText } from "@/components/custom";
 
 import { PATH, TOKEN_NAME } from "@/constants";
+import { TEXT } from "@/utils/text";
 import { setItem } from "@/utils/store-actions";
 
 export default function HomeScreen() {
@@ -35,21 +36,21 @@ export default function HomeScreen() {
     () => [
       {
         image: require("@/assets/images/onboarding/onboarding1.png"),
-        title: "Expense Tracking Made Easy",
+        title: "Theo Dõi Chi Tiêu Dễ Dàng",
         content:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi, itaque facere laborum hic impedit saepe ipsa.",
+          "Ghi lại chi tiêu hàng ngày của bạn và theo dõi chi tiêu một cách dễ dàng.",
       },
       {
         image: require("@/assets/images/onboarding/onboarding2.png"),
-        title: "Smart Budgeting For Your Goals",
+        title: "Lập Ngân Sách Thông Minh Cho Mục Tiêu",
         content:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi, itaque facere laborum hic impedit saepe ipsa.",
+          "Thiết lập ngân sách, theo dõi tiến độ để đạt được các mục tiêu tài chính cá nhân.",
       },
       {
         image: require("@/assets/images/onboarding/onboarding3.png"),
-        title: "Insight That Empower You",
+        title: "Nâng Cao Kiến Thức Tài Chính",
         content:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi, itaque facere laborum hic impedit saepe ipsa.",
+          "Nhận thông tin hữu ích về tài chính và có thể thực hiện được để đưa ra quyết định sáng suốt hơn về tiền bạc.",
       },
     ],
     []
@@ -59,7 +60,7 @@ export default function HomeScreen() {
     <View style={styles.onboardingPage}>
       <TouchableOpacity style={styles.skip} onPress={handleSkip}>
         <CustomText type="h6" status="label">
-          Skip
+          {TEXT.skip}
         </CustomText>
       </TouchableOpacity>
 

@@ -66,6 +66,7 @@ export const TEXT = {
   todayHint: "Gợi ý hôm nay",
   detail: "Chi tiết",
   actions: "Thao tác",
+  skip: "Bỏ qua",
   showMore: "Xem thêm",
   showLess: "Thu gọn",
   yes: "Có",
